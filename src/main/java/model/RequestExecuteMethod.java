@@ -21,7 +21,7 @@ public enum RequestExecuteMethod {
 		DataOutputStream dos = new DataOutputStream(requestParam.getOut());
 		String viewName = requestParam.getUrl().isEmpty() ? ViewName.MAIN : requestParam.getUrl();
 		byte[] body = getBodyFromUrl(viewName);
-		String contentType = viewName.endsWith("css") ? "css" : "html";
+		String contentType = getType(viewName);
 		response200Header(dos, body.length, contentType);
 		responseBody(dos, body);
 	}),
@@ -40,11 +40,11 @@ public enum RequestExecuteMethod {
 		DataOutputStream dos = new DataOutputStream(requestParam.getOut()); 
 		if (successLogin(user)) {
 			String viewName = ViewName.MAIN;
-			String contentType = viewName.endsWith("css") ? "css" : "html";
+			String contentType = getType(viewName);
 			responseLoginSuccessHeader(dos, viewName, contentType);
 		} else {
 			String viewName = ViewName.LOGIN_FAIL;
-			String contentType = viewName.endsWith("css") ? "css" : "html";
+			String contentType = getType(viewName);
 			responseLoginFailHeader(dos, viewName, contentType);
 		}
 	}),
@@ -53,7 +53,7 @@ public enum RequestExecuteMethod {
 		DataOutputStream dos = new DataOutputStream(requestParam.getOut()); 
 		if (logined) {
 			String viewName = ViewName.MEMBER_LIST;
-			String contentType = viewName.endsWith("css") ? "css" : "html";
+			String contentType = getType(viewName);
 			response302Header(dos, viewName, contentType);
 		} else {
 			requestParam.setUrl(ViewName.MAIN);
@@ -64,6 +64,11 @@ public enum RequestExecuteMethod {
 	
 	RequestExecuteMethod(Request request) {
 		this.request = request;
+	}
+
+	private static String getType(String viewName) {
+		// TODO Auto-generated method stub
+		return viewName.endsWith("css") ? "css" : "html";
 	}
 
 	private static boolean isLogined(Map<String, String> cookies) {

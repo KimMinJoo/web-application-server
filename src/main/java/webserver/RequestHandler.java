@@ -110,7 +110,11 @@ public class RequestHandler extends Thread {
 	}
 
 	private boolean isNotFinish(String line) {
-		return READER_FINISH.equals(line) == false;
+		return isFinish(line) == false;
+	}
+
+	private boolean isFinish(String line) {
+		return READER_FINISH.equals(line);
 	}
 
 }
