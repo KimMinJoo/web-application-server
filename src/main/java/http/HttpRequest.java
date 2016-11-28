@@ -33,11 +33,10 @@ public class HttpRequest {
             }
 
             requestLine = new RequestLine(line);
-
-            while (!line.equals("")) {
+            while (isEmptyLine(line)) {
                 line = br.readLine();
                 log.debug("header : {}", line);
-                if (!line.equals("")) {
+                if (isEmptyLine(line)) {
                     String[] tokens = line.split(":");
                     headers.put(tokens[0], tokens[1].trim());
                 }
@@ -53,6 +52,10 @@ public class HttpRequest {
             log.error(io.getMessage());
         }
     }
+
+	private boolean isEmptyLine(String line) {
+		return line != null && !line.isEmpty();
+	}
 
     public HttpMethod getHttpMethod() {
         return requestLine.getMethod();
