@@ -68,8 +68,8 @@ public enum Action {
 		this.method = method;
 	}
 
-	Action(Method action) {
-		this.method = action;
+	Action(Method method) {
+		this.method = method;
 	}
 
 	private static String getViewName(String path) {
